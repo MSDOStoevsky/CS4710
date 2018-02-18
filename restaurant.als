@@ -4,7 +4,7 @@ one sig Kitchen {
 	fulfills: Order
 }
 sig MenuItem {
-
+	
 }
 one sig Menu {
 	has: MenuItem
@@ -13,13 +13,13 @@ sig Party {
 	sits: one Table
 }
 sig Table {
-	orders: Order
+	orders: one Order
 }
 sig Customer {
 	belongs: one Party
 }
 sig Order {
-	has: MenuItem
+	contains: MenuItem
 }
 
 sig Waiter {
@@ -34,7 +34,7 @@ fact {
 
 // only one party per table
 fact {
-	//TODO
+	 all t: Table | one p: Party | p.sits = t
 }
 
 // all parties have customers
@@ -42,11 +42,16 @@ fact {
 	//TODO
 }
 
+// tables cannot have more than one waiter
+fact {
+	//TODO 
+}
+
+// waiters only take orders of tables they wait on
+fact {
+	//TODO 
+}
+
 pred test { }
 
 run test for 5
-
-/* 
-	multiple tables cannot have the same order 
-	customers can only be seated at one table
-*/
