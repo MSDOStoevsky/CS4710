@@ -1,57 +1,36 @@
 module restaurant
 
 one sig Kitchen {
-	fulfills: Order
+    fulfills: some Order
 }
 sig MenuItem {
-	
+    costs: one Cost
 }
-one sig Menu {
-	has: MenuItem
-}
-sig Party {
-	sits: one Table
+
+sig Cost {
+    
 }
 sig Table {
-	orders: one Order
+    orders: one Order
 }
 sig Customer {
-	belongs: one Party
+    sits: one Table
 }
 sig Order {
-	contains: MenuItem
+    contains: some MenuItem
 }
 
 sig Waiter {
-	waits: one Table,
-	takes: one Order
+    waits: one Table
 }
 
-// all menu items belong to one menu
+// all orders are associated with one table
 fact {
-	all m_item: MenuItem, m: Menu | m.has = m_item
+    all o: Order | one t: Table | t.orders = o
 }
 
-// only one party per table
-fact {
-	 all t: Table | one p: Party | p.sits = t
-}
-
-// all parties have customers
-fact {
-	//TODO
-}
 
 // tables cannot have more than one waiter
 fact {
-	//TODO 
+    all t:Table | one w:Waiter|w.waits=t
 }
-
-// waiters only take orders of tables they wait on
-fact {
-	//TODO 
-}
-
-pred test { }
-
-run test for 5
